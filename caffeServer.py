@@ -9,6 +9,8 @@ import datetime
 IMG_WIDTH = 227
 IMG_HEIGHT = 227
 IMG_LEN = IMG_WIDTH*IMG_HEIGHT
+SPATH = '/tmp/caffeServer.d'
+
 
 
 class models(object):
@@ -60,7 +62,9 @@ caffe = models(0)
 
 
 s = socket.socket(socket.AF_UNIX)
-s.bind('127.0.0.1', 8999)
+if os.path.exists(SPATH):
+   os.unlink(SPATH)
+s.bind(SPATH)
 s.listen(1)
 
 while True:

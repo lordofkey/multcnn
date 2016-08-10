@@ -10,12 +10,24 @@ import datetime
 import Queue
 import threading
 
+
+
+Qs = Queue.Queue(100)
+
+
+
+
+
+
 HOST = '0.0.0.0'
 PORT = 8145
 PARAM_LEN = 128
 
 SAVE_IMG = 1
 picFolder = ''
+
+
+
 
 class models:
     def __init__(self):
@@ -121,6 +133,7 @@ while 1:
     m_rlt = ''
     used_model = classifier[model_index]
     if used_model.type == 'caffe':
+        Qs.put(img_in)
         starttime = datetime.datetime.now()
         predictions = used_model.model[0].predict([img_in])
         endtime = datetime.datetime.now()

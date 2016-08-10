@@ -90,7 +90,7 @@ while True:
     img_in /= 255
     # img_in = [skimage.img_as_float(img).astype(np.float32)]
     m_rlt = ''
-    if used_model.type == 'caffe':
+    if caffe.type == 'caffe':
         starttime = datetime.datetime.now()
         predictions = caffe.model[0].predict([img_in])
         endtime = datetime.datetime.now()

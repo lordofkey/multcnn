@@ -93,7 +93,7 @@ m_mdlnum = root.getElementsByTagName('modelnum')
 m_mdlnum_temp = m_mdlnum[0].firstChild.data
 modelnum = int(m_mdlnum_temp)
 itemlist = root.getElementsByTagName('model')
-modelnum = 1
+modelnum = 0
 for ii in range(modelnum):
     model_content = itemlist[ii]
     model = models()

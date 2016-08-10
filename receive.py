@@ -80,7 +80,7 @@ def receivedata():
                 im.extend(data)
                 recv_size += len(data)
     except:
-        continue
+        return
   #  try:
    #     print "input QS"
 

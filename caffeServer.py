@@ -62,6 +62,7 @@ m_date = str(datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S"))
 caffe = models(0)
 
 
+ca_num = 0
 s = socket.socket(socket.AF_UNIX)
 if os.path.exists(SPATH):
    os.unlink(SPATH)
@@ -93,7 +94,9 @@ while True:
     m_rlt = ''
     if caffe.type == 'caffe':
         starttime = datetime.datetime.now()
+        print ca_num
         predictions = caffe.model[0].predict([img_in])
+        ca_num += 1
         endtime = datetime.datetime.now()
         print endtime - starttime
         print predictions, m_rlt

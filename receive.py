@@ -152,7 +152,8 @@ def imgpro(classifier):
         img = img.reshape(height, width, 1)
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
         img_in = cv2.resize(img, (227, 227))
-        str = struct.pack(str(IMG_LEN) + 'B', np.array(img_in, np.uint8))
+        buff = struct.pack(str(IMG_LEN) + 'B', np.array(img_in, np.uint8))
+        sock.sendall(buff)
         m_rlt = ''
         if(0 == process_num % 2000):
             picFolder = str(process_num)

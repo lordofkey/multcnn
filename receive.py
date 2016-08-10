@@ -13,7 +13,7 @@ import threading
 
 Qs = Queue.Queue(100)
 Qcon = Queue.Queue(30)
-def imgpro():
+def imgpro(classifier):
     while True:
         tmp = Qs.get()
         im = tmp[0]
@@ -141,7 +141,7 @@ for ii in range(modelnum):
         # mean = np.load(model_path + 'mean.npy')
         model.model.append(caffe.Classifier(model_path + 'deploy.prototxt', model_path + 'model.caffemodel',
                                             mean=mean, channel_swap=(2, 1, 0), raw_scale=255, image_dims=(227, 227)))
-        caffe.set_mode_gpu()
+
         print 'caffe done!'
     if model.type == 'tensorflow':
         ckpt = tf.train.get_checkpoint_state(model_path)
@@ -174,7 +174,7 @@ for ii in range(modelnum):
 
 
 for i in range(1):
-    sthread = threading.Thread(target=imgpro)
+    sthread = threading.Thread(target=imgpro, args=(classifier,))
     sthread.setDaemon(True)
     sthread.start()
 

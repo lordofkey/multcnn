@@ -7,6 +7,8 @@ import caffe
 import tensorflow as tf
 import commands
 import datetime
+import Queue
+import threading
 
 HOST = '0.0.0.0'
 PORT = 8145
@@ -137,11 +139,11 @@ while 1:
     process_num += 1
     print process_num
 
-    cv2.imshow("1", img)
-    if SAVE_IMG:
-        commands.getstatusoutput('mkdir -p pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder)
-        cv2.imwrite('pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder + '/' + str(process_num) + '.jpg', img)
-    cv2.waitKey(1)
+  # cv2.imshow("1", img)
+  # if SAVE_IMG:
+  #     commands.getstatusoutput('mkdir -p pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder)
+  ##     cv2.imwrite('pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder + '/' + str(process_num) + '.jpg', img)
+  # cv2.waitKey(1)
 
     ############################################
     conn.sendall(m_rlt)

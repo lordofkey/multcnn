@@ -13,43 +13,7 @@ import threading
 
 Qs = Queue.Queue(100)
 Qcon = Queue.Queue(30)
-def imgpro(classifier):
-    while True:
-        tmp = Qs.get()
-        im = tmp[0]
-        process_num = tmp[1]
-        width = tmp[2]
-        height = tmp[3]
-        img = np.array(im, np.uint8)
-        img = img.reshape(height, width, 1)
-        img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
-        img_in = cv2.resize(img, (227, 227))
-        img_in = img_in.astype(np.float32)
-        img_in /= 255
-        # img_in = [skimage.img_as_float(img).astype(np.float32)]
-        m_rlt = ''
-        used_model = classifier[model_index]
-        if used_model.type == 'caffe':
-            start_time = datetime.datetime.now()
-            predictions = used_model.model[0].predict([img_in])
-            end_time = datetime.datetime.now()
-            print 'process', end_time - start_time
-            m_rlt = used_model.labels[np.argmax(predictions)]
-            print predictions, m_rlt
-        if used_model.type == 'tensorflow':
-            predictions = used_model.model[0].run(used_model.tf_param[0],
-                                              feed_dict={used_model.tf_param[1]: [img_in], used_model.tf_param[2]: 1.})
-            m_rlt = used_model.labels[np.argmax(predictions)]
-            print predictions, m_rlt
 
-        if(0 == process_num % 2000):
-            picFolder = str(process_num)
-        print process_num
-#        cv2.imshow("1", img)
-        if SAVE_IMG:
-            commands.getstatusoutput('mkdir -p pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder)
-            cv2.imwrite('pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder + '/' + str(process_num) + '.jpg', img)
-#        cv2.waitKey(1)
 
 
 def receivedata():
@@ -170,6 +134,44 @@ for ii in range(modelnum):
             break
     f.close()
     classifier.append(model)
+
+def imgpro(classifier):
+    while True:
+        tmp = Qs.get()
+        im = tmp[0]
+        process_num = tmp[1]
+        width = tmp[2]
+        height = tmp[3]
+        img = np.array(im, np.uint8)
+        img = img.reshape(height, width, 1)
+        img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        img_in = cv2.resize(img, (227, 227))
+        img_in = img_in.astype(np.float32)
+        img_in /= 255
+        # img_in = [skimage.img_as_float(img).astype(np.float32)]
+        m_rlt = ''
+        used_model = classifier[model_index]
+        if used_model.type == 'caffe':
+            start_time = datetime.datetime.now()
+            predictions = used_model.model[0].predict([img_in])
+            end_time = datetime.datetime.now()
+            print 'process', end_time - start_time
+            m_rlt = used_model.labels[np.argmax(predictions)]
+            print predictions, m_rlt
+        if used_model.type == 'tensorflow':
+            predictions = used_model.model[0].run(used_model.tf_param[0],
+                                              feed_dict={used_model.tf_param[1]: [img_in], used_model.tf_param[2]: 1.})
+            m_rlt = used_model.labels[np.argmax(predictions)]
+            print predictions, m_rlt
+        if(0 == process_num % 2000):
+            picFolder = str(process_num)
+        print process_num
+#        cv2.imshow("1", img)
+        if SAVE_IMG:
+            commands.getstatusoutput('mkdir -p pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder)
+            cv2.imwrite('pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder + '/' + str(process_num) + '.jpg', img)
+#        cv2.waitKey(1)
+
 
 
 

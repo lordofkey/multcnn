@@ -28,8 +28,8 @@
       <file leaf-file-name="receive.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/receive.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43130228">
-              <caret line="148" column="80" selection-start-line="148" selection-start-column="80" selection-end-line="148" selection-end-column="80" />
+            <state vertical-scroll-proportion="0.20430107">
+              <caret line="138" column="55" selection-start-line="138" selection-start-column="55" selection-end-line="138" selection-end-column="55" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -442,7 +442,13 @@
       <option name="project" value="LOCAL" />
       <updated>1470796731586</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="gputest">
+      <created>1470799184082</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1470799184082</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -485,7 +491,8 @@
     <MESSAGE value="mod1" />
     <MESSAGE value="mod2" />
     <MESSAGE value="debug1" />
-    <option name="LAST_COMMIT_MESSAGE" value="debug1" />
+    <MESSAGE value="gputest" />
+    <option name="LAST_COMMIT_MESSAGE" value="gputest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -558,8 +565,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/receive.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43130228">
-          <caret line="148" column="80" selection-start-line="148" selection-start-column="80" selection-end-line="148" selection-end-column="80" />
+        <state vertical-scroll-proportion="0.20430107">
+          <caret line="138" column="55" selection-start-line="138" selection-start-column="55" selection-end-line="138" selection-end-column="55" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

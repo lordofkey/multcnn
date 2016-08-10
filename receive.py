@@ -117,7 +117,7 @@ class models(object):
 #pred, x, keep_prob
 ####PreProcess####
 m_date = str(datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S"))
-sess = tf.Session()
+#sess = tf.Session()
 
 classifier = []
 labels = []

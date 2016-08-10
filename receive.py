@@ -33,7 +33,7 @@ def imgpro():
             starttime = datetime.datetime.now()
             predictions = used_model.model[0].predict([img_in])
             endtime = datetime.datetime.now()
-            print 'process time:'(endtime - starttime)
+            print 'process time:' + (endtime - starttime)
             m_rlt = used_model.labels[np.argmax(predictions)]
 #            print predictions, m_rlt
         if used_model.type == 'tensorflow':

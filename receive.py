@@ -30,10 +30,10 @@ def imgpro():
         m_rlt = ''
         used_model = classifier[model_index]
         if used_model.type == 'caffe':
-            starttime = datetime.datetime.now()
+            start_time = datetime.datetime.now()
             predictions = used_model.model[0].predict([img_in])
-            endtime = datetime.datetime.now()
-            print 'process time:' + (endtime - starttime)
+            end_time = datetime.datetime.now()
+            print end_time - start_time
             m_rlt = used_model.labels[np.argmax(predictions)]
 #            print predictions, m_rlt
         if used_model.type == 'tensorflow':

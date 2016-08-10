@@ -4,7 +4,7 @@ import numpy as np
 import xml.dom.minidom
 import caffe
 import datetime
-
+import os
 
 IMG_WIDTH = 227
 IMG_HEIGHT = 227

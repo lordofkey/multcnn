@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1e5c0c45-0fa8-4eb2-9cbc-2cd00d39a8f8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/receive.py" afterPath="$PROJECT_DIR$/receive.py" />
     </list>
     <ignored path="multi_thread_dl.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,7 +27,7 @@
       <file leaf-file-name="receive.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/receive.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37401575">
+            <state vertical-scroll-proportion="0.37475345">
               <caret line="80" column="38" selection-start-line="80" selection-start-column="38" selection-end-line="80" selection-end-column="38" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -372,6 +371,13 @@
       <option name="number" value="Default" />
       <updated>1470729328043</updated>
     </task>
+    <task id="LOCAL-00001" summary="mod1">
+      <created>1470793339568</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1470793339568</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -380,6 +386,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1933472" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -408,6 +415,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="mod1" />
+    <option name="LAST_COMMIT_MESSAGE" value="mod1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -456,7 +467,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/receive.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37401575">
+        <state vertical-scroll-proportion="0.37475345">
           <caret line="80" column="38" selection-start-line="80" selection-start-column="38" selection-end-line="80" selection-end-column="38" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />

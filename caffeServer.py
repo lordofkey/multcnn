@@ -60,7 +60,7 @@ caffe = models(0)
 
 
 s = socket.socket(socket.AF_UNIX)
-s.bind(('127.0.0.1', 8999))
+s.bind('127.0.0.1', 8999)
 s.listen(1)
 
 while True:

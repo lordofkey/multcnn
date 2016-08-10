@@ -97,3 +97,5 @@ while True:
         endtime = datetime.datetime.now()
         print endtime - starttime
         print predictions, m_rlt
+s.close()
+conn.close()

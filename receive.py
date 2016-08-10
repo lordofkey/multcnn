@@ -31,7 +31,6 @@ def imgpro():
         used_model = classifier[model_index]
         if used_model.type == 'caffe':
             start_time = datetime.datetime.now()
-            caffe.set_mode_gpu()
             predictions = used_model.model[0].predict([img_in])
             end_time = datetime.datetime.now()
             print 'process', end_time - start_time
@@ -142,6 +141,7 @@ for ii in range(modelnum):
         # mean = np.load(model_path + 'mean.npy')
         model.model.append(caffe.Classifier(model_path + 'deploy.prototxt', model_path + 'model.caffemodel',
                                             mean=mean, channel_swap=(2, 1, 0), raw_scale=255, image_dims=(227, 227)))
+        caffe.set_mode_gpu()
         print 'caffe done!'
     if model.type == 'tensorflow':
         ckpt = tf.train.get_checkpoint_state(model_path)

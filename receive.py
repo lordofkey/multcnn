@@ -136,15 +136,7 @@ for ii in range(modelnum):
     model_path = str(model_content.getAttribute("path"))
     if model.type == 'caffe':
         caffe.set_mode_gpu()
-<<<<<<< HEAD
-<<<<<<< HEAD
         # caffe.set_mode_cpu()
-=======
-        print 'gpuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
->>>>>>> 3305c90495094551b30b16c38bbc0fd7f616ab04
-=======
-        print 'gpuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
->>>>>>> d4a490db5ba717a8a7b57075954a7fbb986a303b
         proto_data = open(model_path + 'mean.binaryproto', 'rb').read()
         temp_a = caffe.io.caffe_pb2.BlobProto.FromString(proto_data)
         mean = caffe.io.blobproto_to_array(temp_a)[0]
@@ -182,7 +174,7 @@ for ii in range(modelnum):
 
 
 
-for i in range(3):
+for i in range(1):
     sthread = threading.Thread(target=imgpro)
     sthread.setDaemon(True)
     sthread.start()

@@ -7,7 +7,7 @@ import datetime
 
 
 class models(object):
-    def __init__(self, num = 1):
+    def __init__(self, num = 0):
         self.name = ''
         self.type = ''
         self.labels = []
@@ -22,19 +22,21 @@ class models(object):
         itemlist = root.getElementsByTagName('model')
         model_content = itemlist[num]
         self.name = str(model_content.getAttribute("name"))
-        self.type self= str(model_content.getAttribute("type"))
-        model_path = str(model_content.getAttribute("path"))
+        self.type = str(model_content.getAttribute("type"))
+        self.model_path = str(model_content.getAttribute("path"))
         if self.type == 'caffe':
             caffe.set_mode_gpu()
-            proto_data = open(model_path + 'mean.binaryproto', 'rb').read()
+            proto_data = open(self.model_path + 'mean.binaryproto', 'rb').read()
             temp_a = caffe.io.caffe_pb2.BlobProto.FromString(proto_data)
             mean = caffe.io.blobproto_to_array(temp_a)[0]
             # mean = np.load(model_path + 'mean.npy')
-            self.model.append(caffe.Classifier(model_path + 'deploy.prototxt', model_path + 'model.caffemodel',
+            self.model.append(caffe.Classifier(self.model_path + 'deploy.prototxt', self.model_path + 'model.caffemodel',
                                             mean=mean, channel_swap=(2, 1, 0), raw_scale=255, image_dims=(227, 227)))
             print 'caffe done!'
+        else:
+            print 'there`s no caffe!', self.type
     def initlabel(self):
-        f = open(model_path + 'labels.txt', 'r')
+        f = open(self.model_path + 'labels.txt', 'r')
         while True:
             line = f.readline()
             line = line.strip('\n')
@@ -49,4 +51,4 @@ class models(object):
 m_date = str(datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S"))
 
 
-caffe = models()
+caffe = models(0)

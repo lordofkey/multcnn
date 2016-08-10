@@ -100,7 +100,7 @@ def impro():
         endtime = datetime.datetime.now()
         print endtime - starttime
 
-sthread = threading.Thread(target=imgpro)
+sthread = threading.Thread(target=impro)
 sthread.setDaemon(True)
 sthread.start()
 

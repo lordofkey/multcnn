@@ -177,7 +177,7 @@ def imgpro(classifier):
 
 for i in range(1):
     sthread = threading.Thread(target=imgpro, args=(classifier,))
-    sthread.setDaemon(True)
+    sthread.setDaemon(False)
     sthread.start()
 
 for i in range(10):

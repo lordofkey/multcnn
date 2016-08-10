@@ -31,11 +31,12 @@ def imgpro():
         used_model = classifier[model_index]
         if used_model.type == 'caffe':
             start_time = datetime.datetime.now()
+            caffe.set_mode_gpu()
             predictions = used_model.model[0].predict([img_in])
             end_time = datetime.datetime.now()
             print 'process', end_time - start_time
             m_rlt = used_model.labels[np.argmax(predictions)]
-#            print predictions, m_rlt
+            print predictions, m_rlt
         if used_model.type == 'tensorflow':
             predictions = used_model.model[0].run(used_model.tf_param[0],
                                               feed_dict={used_model.tf_param[1]: [img_in], used_model.tf_param[2]: 1.})

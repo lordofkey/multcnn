@@ -70,8 +70,8 @@ def receivedata():
         im = []
         try:
             while recv_size < file_size:
-                if file_size - recv_size > 102400:
-                    temp_recv = conn.recv(102400)
+                if file_size - recv_size > 10240:
+                    temp_recv = conn.recv(10240)
                     data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
                     im.extend(data)
                 else:
@@ -81,7 +81,7 @@ def receivedata():
                 recv_size += len(data)
         except:
             continue
-        Qs.put((data,process_num,width,height))
+        Qs.put((im, process_num, width, height))
         ##################################################################################
         m_rlt = ''
         conn.sendall(m_rlt)

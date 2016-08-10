@@ -116,7 +116,7 @@ class models(object):
         self.tf_param = []  #pred, x, keep_prob
 ####PreProcess####
 m_date = str(datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S"))
-#sess = tf.Session()
+sess = tf.Session()
 
 classifier = []
 labels = []
@@ -135,7 +135,6 @@ for ii in range(modelnum):
     model_path = str(model_content.getAttribute("path"))
     if model.type == 'caffe':
         caffe.set_mode_gpu()
-        # caffe.set_mode_cpu()
         proto_data = open(model_path + 'mean.binaryproto', 'rb').read()
         temp_a = caffe.io.caffe_pb2.BlobProto.FromString(proto_data)
         mean = caffe.io.blobproto_to_array(temp_a)[0]

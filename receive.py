@@ -33,9 +33,9 @@ def imgpro():
             starttime = datetime.datetime.now()
             predictions = used_model.model[0].predict([img_in])
             endtime = datetime.datetime.now()
-            print endtime - starttime
+            print 'process time:'(endtime - starttime)
             m_rlt = used_model.labels[np.argmax(predictions)]
-            print predictions, m_rlt
+#            print predictions, m_rlt
         if used_model.type == 'tensorflow':
             predictions = used_model.model[0].run(used_model.tf_param[0],
                                               feed_dict={used_model.tf_param[1]: [img_in], used_model.tf_param[2]: 1.})
@@ -62,7 +62,11 @@ def receivedata():
             if param[:4] == classifier[i].name[:4]:
                 model_index = i
         ############################################
-        conn.sendall('s')
+        try:
+            conn.sendall('s')
+        except:
+            print "failed to receive img!"
+            continue
         width = struct.unpack('L', conn.recv(8))[0]
         height = struct.unpack('L', conn.recv(8))[0]
         file_size = width * height
@@ -84,7 +88,11 @@ def receivedata():
         Qs.put((im, process_num, width, height))
         ##################################################################################
         m_rlt = ''
-        conn.sendall(m_rlt)
+        try:
+            conn.sendall(m_rlt)
+        except:
+            print "failed to sentback result!"
+            continue
         conn.close()
 
 

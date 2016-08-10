@@ -136,7 +136,11 @@ for ii in range(modelnum):
     model_path = str(model_content.getAttribute("path"))
     if model.type == 'caffe':
         caffe.set_mode_gpu()
+<<<<<<< HEAD
         # caffe.set_mode_cpu()
+=======
+        print 'gpuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu'
+>>>>>>> 3305c90495094551b30b16c38bbc0fd7f616ab04
         proto_data = open(model_path + 'mean.binaryproto', 'rb').read()
         temp_a = caffe.io.caffe_pb2.BlobProto.FromString(proto_data)
         mean = caffe.io.blobproto_to_array(temp_a)[0]

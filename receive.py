@@ -113,8 +113,7 @@ class models(object):
         self.type = ''
         self.labels = []
         self.model = []
-        self.tf_param = []
-#pred, x, keep_prob
+        self.tf_param = []  #pred, x, keep_prob
 ####PreProcess####
 m_date = str(datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S"))
 #sess = tf.Session()

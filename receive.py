@@ -150,9 +150,7 @@ def imgpro(classifier):
         height = tmp[3]
         img = np.array(im, np.uint8)
         img = img.reshape(height, width, 1)
-        img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
         img_in = cv2.resize(img, (227, 227))
-        print img_in.data.__len__()
         sock.sendall(img_in.data.__str__())
         print "send over"
         m_rlt = ''

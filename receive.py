@@ -159,9 +159,9 @@ def imgpro(classifier):
             picFolder = str(process_num)
         print process_num
 #        cv2.imshow("1", img)
-        if SAVE_IMG:
-            commands.getstatusoutput('mkdir -p pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder)
-            cv2.imwrite('pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder + '/' + str(process_num) + '.jpg', img)
+       # if SAVE_IMG:
+        #    commands.getstatusoutput('mkdir -p pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder)
+         #   cv2.imwrite('pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder + '/' + str(process_num) + '.jpg', img)
 #        cv2.waitKey(1)
 
 for i in range(1):

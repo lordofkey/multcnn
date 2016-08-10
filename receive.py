@@ -12,6 +12,7 @@ import threading
 
 
 Qs = Queue.Queue(100)
+Qcon = Queue.Queue(30)
 def imgpro():
     while True:
         tmp = Qs.get()
@@ -49,6 +50,50 @@ def imgpro():
 #            commands.getstatusoutput('mkdir -p pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder)
 #            cv2.imwrite('pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder + '/' + str(process_num) + '.jpg', img)
 #        cv2.waitKey(1)
+
+
+def receivedata():
+    tmp = Qcon.get()
+    conn = tmp[0]
+    process_num = tmp[1]
+    param = conn.recv(PARAM_LEN)
+    for i in range(modelnum):
+        if param[:4] == classifier[i].name[:4]:
+            model_index = i
+    ############################################
+    conn.sendall('s')
+    width = struct.unpack('L', conn.recv(8))[0]
+    height = struct.unpack('L', conn.recv(8))[0]
+    file_size = width * height
+    recv_size = 0
+    im = []
+    try:
+        while recv_size < file_size:
+            if file_size - recv_size > 102400:
+                temp_recv = conn.recv(102400)
+                data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
+                im.extend(data)
+            else:
+                temp_recv = conn.recv(file_size - recv_size)
+                data += temp_recv
+                data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
+                im.extend(data)
+                recv_size += len(data)
+    except:
+        continue
+  #  try:
+   #     print "input QS"
+
+    Qs.put((data,process_num,width,height))
+    #except:
+     #   print 'Qsisfull!!!'
+    process_num = process_num + 1
+######################################################################################
+    m_rlt = ''
+    conn.sendall(m_rlt)
+    conn.close()
+
+
 
 
 
@@ -131,8 +176,13 @@ for i in range(3):
     sthread.setDaemon(True)
     sthread.start()
 
+for i in range(10):
+    sthread = threading.Thread(target=receivedata)
+    sthread.setDaemon(True)
+    sthread.start()
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+s = socket.socket()
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind((HOST, PORT))
 s.listen(1)
@@ -141,42 +191,10 @@ process_num = 0
 while True:
     conn, addr = s.accept()
     print'Connected by', addr
-    param = conn.recv(PARAM_LEN)
-    for i in range(modelnum):
-        if param[:4] == classifier[i].name[:4]:
-            model_index = i
-    ############################################
-    conn.sendall('s')
-    width = struct.unpack('L', conn.recv(8))[0]
-    height = struct.unpack('L', conn.recv(8))[0]
-    file_size = width * height
-    recv_size = 0
-    im = []
-    try:
-        while recv_size < file_size:
-            if file_size - recv_size > 102400:
-                temp_recv = conn.recv(102400)
-                data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
-                im.extend(data)
-            else:
-                temp_recv = conn.recv(file_size - recv_size)
-                data += temp_recv
-                data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
-                im.extend(data)
-                recv_size += len(data)
-    except:
-        continue
-  #  try:
-   #     print "input QS"
+    Qcon.put((conn, process_num))
+    process_num += 1
 
-    Qs.put((data,process_num,width,height))
-    #except:
-     #   print 'Qsisfull!!!'
-    process_num = process_num + 1
-######################################################################################
-    m_rlt = ''
-    conn.sendall(m_rlt)
-    conn.close()
+
 
 
 

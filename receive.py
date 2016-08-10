@@ -33,7 +33,7 @@ def imgpro():
             start_time = datetime.datetime.now()
             predictions = used_model.model[0].predict([img_in])
             end_time = datetime.datetime.now()
-            print end_time - start_time
+            print 'process', end_time - start_time
             m_rlt = used_model.labels[np.argmax(predictions)]
 #            print predictions, m_rlt
         if used_model.type == 'tensorflow':
@@ -192,7 +192,7 @@ model_index = 0
 process_num = 0
 while True:
     conn, addr = s.accept()
-    print'Connected by', addr
+    print 'Connected by', addr
     Qcon.put((conn, process_num))
     process_num += 1
 

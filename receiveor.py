@@ -90,6 +90,19 @@ for ii in range(modelnum):
             break
     f.close()
     classifier.append(model)
+def impro():
+    while True:
+        tmp = Qs.get()
+        img_in = tmp[0]
+        used_model = tmp[1]
+        starttime = datetime.datetime.now()
+        predictions = used_model.model[0].predict([img_in])
+        endtime = datetime.datetime.now()
+        print endtime - starttime
+
+sthread = threading.Thread(target=imgpro)
+sthread.setDaemon(True)
+sthread.start()
 
 process_num = 0
 
@@ -133,13 +146,7 @@ while 1:
     m_rlt = ''
     used_model = classifier[model_index]
     if used_model.type == 'caffe':
-        Qs.put(img_in)
-        starttime = datetime.datetime.now()
-        predictions = used_model.model[0].predict([img_in])
-        endtime = datetime.datetime.now()
-        print endtime - starttime
-        m_rlt = used_model.labels[np.argmax(predictions)]
-        print predictions, m_rlt
+        Qs.put((img_in, used_model))
     if used_model.type == 'tensorflow':
         predictions = used_model.model[0].run(used_model.tf_param[0],
                                               feed_dict={used_model.tf_param[1]: [img_in], used_model.tf_param[2]: 1.})

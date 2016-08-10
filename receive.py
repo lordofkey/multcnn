@@ -13,7 +13,10 @@ import threading
 
 Qs = Queue.Queue(100)
 Qcon = Queue.Queue(30)
-
+IMG_WIDTH = 227
+IMG_HEIGHT = 227
+IMG_LEN = IMG_WIDTH*IMG_HEIGHT
+SPATH = '/tmp/caffeServer.d'
 
 
 def receivedata():
@@ -136,6 +139,9 @@ for ii in range(modelnum):
     classifier.append(model)
 
 def imgpro(classifier):
+    sock = socket.socket(socket.AF_UNIX)
+    sock.connect('./tt.d')
+
     while True:
         tmp = Qs.get()
         im = tmp[0]
@@ -146,23 +152,8 @@ def imgpro(classifier):
         img = img.reshape(height, width, 1)
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
         img_in = cv2.resize(img, (227, 227))
-        img_in = img_in.astype(np.float32)
-        img_in /= 255
-        # img_in = [skimage.img_as_float(img).astype(np.float32)]
+        str = struct.pack(str(IMG_LEN) + 'B', np.array(img_in, np.uint8))
         m_rlt = ''
-        used_model = classifier[model_index]
-        if used_model.type == 'caffe':
-            start_time = datetime.datetime.now()
-            predictions = used_model.model[0].predict([img_in])
-            end_time = datetime.datetime.now()
-            print 'process', end_time - start_time
-            m_rlt = used_model.labels[np.argmax(predictions)]
-            print predictions, m_rlt
-        if used_model.type == 'tensorflow':
-            predictions = used_model.model[0].run(used_model.tf_param[0],
-                                              feed_dict={used_model.tf_param[1]: [img_in], used_model.tf_param[2]: 1.})
-            m_rlt = used_model.labels[np.argmax(predictions)]
-            print predictions, m_rlt
         if(0 == process_num % 2000):
             picFolder = str(process_num)
         print process_num
@@ -171,9 +162,6 @@ def imgpro(classifier):
             commands.getstatusoutput('mkdir -p pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder)
             cv2.imwrite('pic/' + classifier[model_index].name + '/' + m_date + '/' + m_rlt + '/' + picFolder + '/' + str(process_num) + '.jpg', img)
 #        cv2.waitKey(1)
-
-
-
 
 for i in range(1):
     sthread = threading.Thread(target=imgpro, args=(classifier,))

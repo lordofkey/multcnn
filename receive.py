@@ -53,45 +53,39 @@ def imgpro():
 
 
 def receivedata():
-    tmp = Qcon.get()
-    conn = tmp[0]
-    process_num = tmp[1]
-    param = conn.recv(PARAM_LEN)
-    for i in range(modelnum):
-        if param[:4] == classifier[i].name[:4]:
-            model_index = i
-    ############################################
-    conn.sendall('s')
-    width = struct.unpack('L', conn.recv(8))[0]
-    height = struct.unpack('L', conn.recv(8))[0]
-    file_size = width * height
-    recv_size = 0
-    im = []
-    try:
-        while recv_size < file_size:
-            if file_size - recv_size > 102400:
-                temp_recv = conn.recv(102400)
-                data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
-                im.extend(data)
-            else:
-                temp_recv = conn.recv(file_size - recv_size)
-                data += temp_recv
-                data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
-                im.extend(data)
+    while True:
+        tmp = Qcon.get()
+        conn = tmp[0]
+        process_num = tmp[1]
+        param = conn.recv(PARAM_LEN)
+        for i in range(modelnum):
+            if param[:4] == classifier[i].name[:4]:
+                model_index = i
+        ############################################
+        conn.sendall('s')
+        width = struct.unpack('L', conn.recv(8))[0]
+        height = struct.unpack('L', conn.recv(8))[0]
+        file_size = width * height
+        recv_size = 0
+        im = []
+        try:
+            while recv_size < file_size:
+                if file_size - recv_size > 102400:
+                    temp_recv = conn.recv(102400)
+                    data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
+                    im.extend(data)
+                else:
+                    temp_recv = conn.recv(file_size - recv_size)
+                    data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
+                    im.extend(data)
                 recv_size += len(data)
-    except:
-        return
-  #  try:
-   #     print "input QS"
-
-    Qs.put((data,process_num,width,height))
-    #except:
-     #   print 'Qsisfull!!!'
-    process_num = process_num + 1
-######################################################################################
-    m_rlt = ''
-    conn.sendall(m_rlt)
-    conn.close()
+        except:
+            continue
+        Qs.put((data,process_num,width,height))
+        ##################################################################################
+        m_rlt = ''
+        conn.sendall(m_rlt)
+        conn.close()
 
 
 

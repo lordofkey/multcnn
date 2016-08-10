@@ -68,9 +68,10 @@ if os.path.exists(SPATH):
 s.bind(SPATH)
 s.listen(1)
 
+
+conn, addr = s.accept()
+print 'Connected by', addr
 while True:
-    conn, addr = s.accept()
-    print 'Connected by', addr
     recv_size = 0
     im = []
     while recv_size < IMG_LEN:

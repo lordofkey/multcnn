@@ -6,6 +6,11 @@ import caffe
 import datetime
 
 
+IMG_WIDTH = 227
+IMG_HEIGHT = 227
+IMG_LEN = IMG_WIDTH*IMG_HEIGHT
+
+
 class models(object):
     def __init__(self, num = 0):
         self.name = ''
@@ -31,7 +36,7 @@ class models(object):
             mean = caffe.io.blobproto_to_array(temp_a)[0]
             # mean = np.load(model_path + 'mean.npy')
             self.model.append(caffe.Classifier(self.model_path + 'deploy.prototxt', self.model_path + 'model.caffemodel',
-                                            mean=mean, channel_swap=(2, 1, 0), raw_scale=255, image_dims=(227, 227)))
+                                            mean=mean, channel_swap=(2, 1, 0), raw_scale=255, image_dims=(IMG_WIDTH, IMG_HEIGHT)))
             print 'caffe done!'
         else:
             print 'there`s no caffe!', self.type
@@ -52,3 +57,38 @@ m_date = str(datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S"))
 
 
 caffe = models(0)
+
+
+s = socket.socket(socket.AF_UNIX)
+s.bind(('127.0.0.1', 8999))
+s.listen(1)
+
+while True:
+    conn, addr = s.accept()
+    print 'Connected by', addr
+    recv_size = 0
+    im = []
+    while recv_size < IMG_LEN:
+        if IMG_LEN - recv_size > 10240:
+            temp_recv = conn.recv(10240)
+            data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
+            im.extend(data)
+        else:
+            temp_recv = conn.recv(IMG_LEN - recv_size)
+            data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
+            im.extend(data)
+        recv_size += len(data)
+    img = np.array(im, np.uint8)
+    img = img.reshape(IMG_HEIGHT, IMG_WIDTH, 1)
+    img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+    img_in = img.astype(np.float32)
+    img_in /= 255
+    # img_in = [skimage.img_as_float(img).astype(np.float32)]
+    m_rlt = ''
+    used_model = classifier[model_index]
+    if used_model.type == 'caffe':
+        starttime = datetime.datetime.now()
+        predictions = used_model.model[0].predict([img_in])
+        endtime = datetime.datetime.now()
+        print endtime - starttime
+        print predictions, m_rlt

@@ -140,7 +140,7 @@ for ii in range(modelnum):
 
 def imgpro(classifier):
     sock = socket.socket(socket.AF_UNIX)
-    sock.connect('./tt.d')
+    sock.connect(SPATH)
 
     while True:
         tmp = Qs.get()

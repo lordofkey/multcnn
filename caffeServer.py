@@ -102,6 +102,5 @@ while True:
         output = m_model.net.forward()
         predictions = output['prob']
         ca_num += 1
-    cv2.imwrite('test.jpg',img)
 s.close()
 conn.close()

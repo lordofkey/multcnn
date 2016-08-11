@@ -78,7 +78,7 @@ while True:
     pronum += 1
     if pronum == 10:
         pronum = 0
-        fps = 1/((datetime.datetime.now() - stime).total_seconds())
+        fps = 9/((datetime.datetime.now() - stime).total_seconds())
         print 'fps:', fps
     recv_size = 0
     im = []

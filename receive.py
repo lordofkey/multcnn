@@ -19,6 +19,7 @@ IMG_HEIGHT = 227
 IMG_LEN = IMG_WIDTH*IMG_HEIGHT
 SPATH = '/tmp/caffeServer.d'
 
+addr = ''
 
 def receivedata():
     while True:
@@ -80,11 +81,12 @@ def updateshow():
     while True:
         connum = Qcon.qsize()
         impronum = Qcon.qsize()
-        time.sleep(0.1)
+        time.sleep(0.2)
         os.system('clear')
         print '################################################################################'
         print '#      接收列队负载：', connum
         print '#      处理列队负载：', impronum
+        print '#        客户机地址：', addr
 
 
 

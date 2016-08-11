@@ -36,21 +36,22 @@ def receivedata():
         height = struct.unpack('L', conn.recv(8))[0]
         file_size = width * height
         recv_size = 0
-        im = []
+        data = ''
         try:
             while recv_size < file_size:
                 if file_size - recv_size > 10240:
                     temp_recv = conn.recv(10240)
-                    data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
-                    im.extend(data)
+                    data += temp_recv
                 else:
                     temp_recv = conn.recv(file_size - recv_size)
-                    data = list(struct.unpack(str(len(temp_recv)) + 'B', temp_recv))
-                    im.extend(data)
-                recv_size += len(data)
+                    data += temp_recv
+                recv_size = len(data)
         except:
             continue
-        Qs.put((im, process_num, width, height))
+        img = np.fromstring(data,dtype=np.uint8)
+        img = img.reshape(height,width)
+        img_in = cv2.resize(img,(IMG_WIDTH, IMG_HEIGHT))
+        Qs.put((img_in, process_num))
         ##################################################################################
         m_rlt = ''
         try:
@@ -64,13 +65,8 @@ def imgpro():
     sock.connect(SPATH)
     while True:
         tmp = Qs.get()
-        im = tmp[0]
+        img_in = tmp[0]
         process_num = tmp[1]
-        width = tmp[2]
-        height = tmp[3]
-        img = np.array(im, np.uint8)
-        img = img.reshape(height, width, 1)
-        img_in = cv2.resize(img, (227, 227))
         sock.sendall(img_in.data.__str__())
 
 

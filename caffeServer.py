@@ -73,7 +73,7 @@ pronum = 0
 stime = datetime.datetime.now()
 while True:
     pronum += 1
-    if pronum == 10:
+    if pronum >= 10:
         pronum = 0
         fps = 9/((datetime.datetime.now() - stime).total_seconds())
         stime = datetime.datetime.now()
@@ -102,5 +102,6 @@ while True:
         output = m_model.net.forward()
         predictions = output['prob']
         ca_num += 1
+    cv2.imwrite('test.jpg',img)
 s.close()
 conn.close()

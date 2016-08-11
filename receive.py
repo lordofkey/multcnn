@@ -1,3 +1,4 @@
+#coding:utf-8
 import socket
 import cv2
 import numpy as np
@@ -77,10 +78,13 @@ def imgpro(classifier):
 
 def updateshow():
     while True:
+        connum = Qcon.qsize()
+        impronum = Qcon.qsize()
         time.sleep(0.1)
         os.system('clear')
         print '################################################################################'
-        print '#'
+        print '#      接收列队负载：', connum
+        print '#      处理列队负载：', impronum
 
 
 

@@ -19,8 +19,6 @@ class models(object):
     def __init__(self, num = 0):
         self.name = ''
         self.type = ''
-        self.labels = []
-        self.model = []
         self.tf_param = []  #pred, x, keep_prob
         self.initmodel(num)
         self.initlabel()
@@ -37,10 +35,8 @@ class models(object):
             caffe.set_mode_gpu()
             proto_data = open(self.model_path + 'mean.binaryproto', 'rb').read()
             temp_a = caffe.io.caffe_pb2.BlobProto.FromString(proto_data)
-            mean = caffe.io.blobproto_to_array(temp_a)[0]
-            # mean = np.load(model_path + 'mean.npy')
-            self.model.append(caffe.Classifier(self.model_path + 'deploy.prototxt', self.model_path + 'model.caffemodel',
-                                            mean=mean, channel_swap=(2, 1, 0), raw_scale=255, image_dims=(IMG_WIDTH, IMG_HEIGHT)))
+            self.mean = caffe.io.blobproto_to_array(temp_a)[0]
+            self.net = caffe.Net(self.model_path + 'deploy.prototxt', self.model_path + 'model.caffemodel', caffe.TEST)
             print 'caffe done!'
         else:
             print 'there`s no caffe!', self.type
@@ -52,15 +48,16 @@ class models(object):
             # if SAVE_IMG:
                 # commands.getstatusoutput('mkdir -p pic/' + model.name + '/' + m_date + '/' + line)
             if line:
-                self.labels.append(line)
+                self.labels = line
             else:
                 break
+        f.close()
 
 
 m_date = str(datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S"))
 
 
-caffe = models(0)
+m_model = models(0)
 
 
 ca_num = 0
@@ -79,6 +76,7 @@ while True:
     if pronum == 10:
         pronum = 0
         fps = 9/((datetime.datetime.now() - stime).total_seconds())
+        stime = datetime.datetime.now()
         print 'fps:', fps
     recv_size = 0
     im = []
@@ -93,16 +91,16 @@ while True:
             im.extend(data)
         recv_size += len(data)
     img = np.array(im, np.uint8)
-    img = img.reshape(IMG_HEIGHT, IMG_WIDTH, 1)
-    img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
-    img_in = img.astype(np.float32)
-    img_in /= 255
-    # img_in = [skimage.img_as_float(img).astype(np.float32)]
+    img = img.reshape(IMG_HEIGHT, IMG_WIDTH)
     m_rlt = ''
-    if caffe.type == 'caffe':
-        starttime = datetime.datetime.now()
-        predictions = caffe.model[0].predict([img_in])
+    if m_model.type == 'caffe':
+        img_in = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        img_in = np.transpose(img_in, [2, 0, 1])
+        img_in = img_in.astype(np.float32)
+        img_in -= m_model.mean
+        m_model.net.blobs['data'].data[...] = [img_in]
+        output = m_model.net.forward()
+        predictions = output['prob']
         ca_num += 1
-        endtime = datetime.datetime.now()
 s.close()
 conn.close()

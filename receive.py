@@ -72,15 +72,12 @@ def imgpro():
         img = img.reshape(height, width, 1)
         img_in = cv2.resize(img, (227, 227))
         sock.sendall(img_in.data.__str__())
-        sock.sendall(img_in.data.__str__())
-        sock.sendall(img_in.data.__str__())
-        sock.sendall(img_in.data.__str__())
 
 
 def updateshow():
     while True:
         connum = Qcon.qsize()
-        impronum = Qcon.qsize()
+        impronum = Qs.qsize()
         time.sleep(0.2)
         os.system('clear')
         print '################################################################################'

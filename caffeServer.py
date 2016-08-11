@@ -95,6 +95,7 @@ while True:
     m_rlt = ''
     if m_model.type == 'caffe':
         img_in = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        cv2.imwrite("test.jpg", img_in)
         img_in = np.transpose(img_in, [2, 0, 1])
         img_in = img_in.astype(np.float32)
         img_in -= m_model.mean

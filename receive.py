@@ -72,6 +72,9 @@ def imgpro():
         img = img.reshape(height, width, 1)
         img_in = cv2.resize(img, (227, 227))
         sock.sendall(img_in.data.__str__())
+        sock.sendall(img_in.data.__str__())
+        sock.sendall(img_in.data.__str__())
+        sock.sendall(img_in.data.__str__())
 
 
 def updateshow():

@@ -78,7 +78,7 @@ def imgpro(classifier):
 def updateshow():
     while True:
         time.sleep(0.1)
-        os.system('cls')
+        os.system('clear')
         print '################################################################################'
         print '#'
 
@@ -95,12 +95,12 @@ m_date = str(datetime.datetime.now().strftime("%Y-%m-%d-%H:%M:%S"))
 
 
 
-sthread = threading.Thread(target=imgpro, args=(classifier,))
-sthread.setDaemon(False)
+sthread = threading.Thread(target=imgpro)
+sthread.setDaemon(True)
 sthread.start()
 
 sthread = threading.Thread(target=updateshow)
-sthread.setDaemon(False)
+sthread.setDaemon(True)
 sthread.start()
 
 for i in range(10):

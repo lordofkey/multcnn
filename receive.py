@@ -27,9 +27,6 @@ def receivedata():
         conn = tmp[0]
         process_num = tmp[1]
         param = conn.recv(PARAM_LEN)
-        for i in range(modelnum):
-            if param[:4] == classifier[i].name[:4]:
-                model_index = i
         ############################################
         try:
             conn.sendall('s')
@@ -62,7 +59,7 @@ def receivedata():
             continue
         conn.close()
 
-def imgpro(classifier):
+def imgpro():
     sock = socket.socket(socket.AF_UNIX)
     sock.connect(SPATH)
     while True:

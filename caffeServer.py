@@ -14,6 +14,7 @@ SPATH = '/tmp/caffeServer.d'
 
 
 
+
 class models(object):
     def __init__(self, num = 0):
         self.name = ''
@@ -71,8 +72,14 @@ s.listen(1)
 
 
 conn, addr = s.accept()
-print 'Connected by', addr
+pronum = 0
+stime = datetime.datetime.now()
 while True:
+    pronum += 1
+    if pronum == 10:
+        pronum = 0
+        fps = 1/((datetime.datetime.now() - stime).total_seconds())
+        print 'fps:', fps
     recv_size = 0
     im = []
     while recv_size < IMG_LEN:
@@ -94,11 +101,8 @@ while True:
     m_rlt = ''
     if caffe.type == 'caffe':
         starttime = datetime.datetime.now()
-        print ca_num
         predictions = caffe.model[0].predict([img_in])
         ca_num += 1
         endtime = datetime.datetime.now()
-        print endtime - starttime
-        print predictions, m_rlt
 s.close()
 conn.close()

@@ -49,7 +49,7 @@ def receivedata():
         except:
             continue
         img = np.fromstring(data,dtype=np.uint8)
-        img = img.reshape(height,width)
+        img = img.reshape(width,height)
         cv2.imwrite('test1.jpg',img)
         img_in = cv2.resize(img,(IMG_WIDTH, IMG_HEIGHT))
         Qs.put((img_in, process_num))
